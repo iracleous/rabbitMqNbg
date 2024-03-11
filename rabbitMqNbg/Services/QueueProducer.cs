@@ -11,7 +11,7 @@ namespace rabbitMqNbg.Services;
 
 public class QueueProducer
 {
-    public void Produce()
+    public void Produce(Item item)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
 
@@ -25,14 +25,7 @@ public class QueueProducer
                      exclusive: false,
                      autoDelete: false,
                      arguments: null);
-
-       
-        var item = new Item
-        {
-            Name = "product",
-            Id = 3
-        };
-
+    
         //Serialize the message
         var json = JsonConvert.SerializeObject(item);
         var body = Encoding.UTF8.GetBytes(json);

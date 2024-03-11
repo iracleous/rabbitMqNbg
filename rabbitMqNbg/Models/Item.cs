@@ -1,5 +1,4 @@
-﻿
-namespace rabbitMqNbg.Models;
+﻿namespace rabbitMqNbg.Models;
 
 public class Item
 {

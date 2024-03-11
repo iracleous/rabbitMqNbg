@@ -1,20 +1,30 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using rabbitMqNbg.Models;
 using rabbitMqNbg.Services;
 using System.Text;
 
+var item = new Item
+{
+    Name = "product",
+    Id = 3
+};
+
+
+
 QueueProducer queueProducer    = new QueueProducer();
 
-queueProducer.Produce();
+for (int i= 0; i < 10; i++)
+        queueProducer.Produce(new Item
+        {
+            Name = "product",
+            Id = i
+        });
 
 QueueConsumer consumer = new QueueConsumer();
-consumer.Consume();
+var items = consumer.Consume();
 
-
-Console.ReadLine();
-
-
-
+items.ForEach(item => Console.WriteLine($"id= {item.Id}, name= {item.Name}"));
 
 
 
