@@ -13,7 +13,9 @@ var item = new Item
 
 
 
-//QueueProducer queueProducer    = new QueueProducer();
+QueueProducer queueProducer    = new QueueProducer();
+queueProducer.ProduceWithHeaders();
+
 //for (int i= 0; i < 10; i++)
 //        queueProducer.Produce(new Item
 //        {
@@ -23,14 +25,14 @@ var item = new Item
 
 ///////////////////////////////////////////////////
 ///
-QueueConsumer consumer = new QueueConsumer();
-//var items = consumer.Consume();
-//items.ForEach(item => Console.WriteLine($"id= {item.Id}, name= {item.Name}"));
+//QueueConsumer consumer = new QueueConsumer();
+////var items = consumer.Consume();
+////items.ForEach(item => Console.WriteLine($"id= {item.Id}, name= {item.Name}"));
 
 
 
-var items = consumer.ConsumeUsingExchange();
-items.ForEach(item => Console.WriteLine($"item= {item}"));
+//var items = consumer.ConsumeUsingExchange();
+//items.ForEach(item => Console.WriteLine($"item= {item}"));
 
 
 

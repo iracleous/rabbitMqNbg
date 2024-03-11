@@ -79,7 +79,6 @@ public class QueueConsumer
 
         channel.BasicConsume("Q2", true, consumer);
         return result;
-
     }
 
 
