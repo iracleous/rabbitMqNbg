@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using rabbitMqNbg.Models;
 using Newtonsoft.Json;
+using System.Threading.Channels;
 
 namespace rabbitMqNbg.Services;
 
@@ -18,7 +19,13 @@ public class QueueConsumer
     {
         List<Item> items = new List<Item>();
 
-        var factory = new ConnectionFactory { HostName = "localhost" };
+        var factory = new ConnectionFactory { 
+            HostName = "localhost" , 
+            Port=5100,
+            UserName = "guest",
+            Password = "guest",
+             
+        };
 
         //Create the RabbitMQ connection using connection factory details as i mentioned above
         using var connection = factory.CreateConnection();
@@ -50,4 +57,34 @@ public class QueueConsumer
         bool messagesProcessed = messageProcessingComplete.WaitOne(TimeSpan.FromSeconds(1)); // Adjust the timeout as needed
         return items;
     }
+    public List<string> ConsumeUsingExchange()
+    {
+        List<string> result = new List<string>();
+        var factory = new ConnectionFactory { HostName = "localhost", Port = 5100 };
+
+        //Create the RabbitMQ connection using connection factory details as i mentioned above
+        using var connection = factory.CreateConnection();
+        //Here we create channel with session and model
+        using var channel = connection.CreateModel();
+
+        channel.ExchangeDeclare("CS1225_FanoutEx", ExchangeType.Fanout);
+
+        var consumer = new EventingBasicConsumer(channel);
+        consumer.Received += (model, ea) =>
+        {
+            var body = ea.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+            result.Add(message);
+        };
+
+        channel.BasicConsume("Q2", true, consumer);
+        return result;
+
+    }
+
+
+
+
+
+
 }
